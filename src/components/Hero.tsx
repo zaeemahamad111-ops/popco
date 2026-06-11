@@ -327,6 +327,7 @@ export default function Hero() {
         <AnimatePresence mode="wait">
           {steps.map((stepData, index) => {
             if (index !== activeStep) return null;
+            if (index === 0) return null; // Hide dialogue card on the first step/frame
             return (
               <motion.div
                 key={index}
