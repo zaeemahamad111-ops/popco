@@ -6,10 +6,12 @@ import Ingredients from "@/components/Ingredients";
 import ProductCollection from "@/components/ProductCollection";
 import Experience from "@/components/Experience";
 import Footer from "@/components/Footer";
+import LoadingScreen from "@/components/LoadingScreen";
 
 export default function Home() {
   return (
     <>
+      <LoadingScreen />
       <Navbar />
       <main className="block w-full bg-background">
         <Hero />
