@@ -311,7 +311,7 @@ export default function ProductCollection() {
         </div>
 
         {/* Mobile snap carousel */}
-        <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 no-scrollbar pb-6">
+        <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 no-scrollbar pb-6" data-lenis-prevent>
           {products.map((prod) => (
             <div key={prod.id} className="snap-center flex-shrink-0 w-[78%] sm:w-[52%] flex flex-col items-center text-center px-2">
               <div className="relative w-full mb-5" style={{ paddingBottom: "105%" }}>

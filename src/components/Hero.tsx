@@ -193,6 +193,16 @@ export default function Hero() {
       renderFrame(firstImg);
       images[0] = firstImg;
 
+      let loadedCount = 1;
+      const checkAllLoaded = () => {
+        if (loadedCount === frameCount) {
+          setLoaded(true);
+          (window as any).heroLoaded = true;
+          window.dispatchEvent(new CustomEvent("hero-loaded"));
+          ScrollTrigger.refresh();
+        }
+      };
+
       // Load remaining frames (2–120) in the background
       for (let i = 1; i < frameCount; i++) {
         const img = new Image();
@@ -200,10 +210,13 @@ export default function Hero() {
         img.onload = () => {
           if (!isMounted) return;
           images[i] = img;
-          if (i === frameCount - 1) {
-            setLoaded(true);
-            ScrollTrigger.refresh();
-          }
+          loadedCount++;
+          checkAllLoaded();
+        };
+        img.onerror = () => {
+          if (!isMounted) return;
+          loadedCount++;
+          checkAllLoaded();
         };
       }
     };

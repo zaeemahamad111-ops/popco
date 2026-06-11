@@ -16,37 +16,59 @@ export default function LoadingScreen() {
       (window as any).lenis.stop();
     }
 
-    // Set up a smooth progress counter over 2.4s
-    const startTime = Date.now();
-    const duration = 2400; // 2.4 seconds
+    let isHeroReady = !!(window as any).heroLoaded;
 
-    const updateProgress = () => {
-      const elapsed = Date.now() - startTime;
-      const pct = Math.min(100, Math.floor((elapsed / duration) * 100));
-      
-      setProgress(pct);
+    // Timeout fallback: after 6.5s, force hero ready to prevent getting stuck
+    const fallbackTimeout = setTimeout(() => {
+      isHeroReady = true;
+    }, 6500);
 
-      if (elapsed < duration) {
-        requestAnimationFrame(updateProgress);
-      } else {
-        // When progress reaches 100%, trigger fade-out
-        setIsFadingOut(true);
-        const timeout = setTimeout(() => {
-          setIsDone(true);
-          // Restore scrolling
-          document.body.style.overflow = "";
-          if ((window as any).lenis) {
-            (window as any).lenis.start();
-          }
-        }, 900); // Allow time for exit animations
-        return () => clearTimeout(timeout);
-      }
+    const handleHeroLoaded = () => {
+      isHeroReady = true;
     };
 
-    const frameId = requestAnimationFrame(updateProgress);
+    window.addEventListener("hero-loaded", handleHeroLoaded);
+
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        let next = prev;
+        if (isHeroReady) {
+          // If hero is loaded, speed up to 100%
+          next = prev + 5;
+        } else {
+          // If hero is NOT loaded, count up smoothly to 90%, then hold
+          if (prev < 90) {
+            next = prev + 1;
+          } else if (prev < 99) {
+            // Very slow ticks so user sees it's not frozen
+            next = prev + (Math.random() > 0.8 ? 1 : 0);
+          }
+        }
+
+        if (next >= 100) {
+          clearInterval(interval);
+          clearTimeout(fallbackTimeout);
+          
+          // Trigger fade-out
+          setIsFadingOut(true);
+          const doneTimeout = setTimeout(() => {
+            setIsDone(true);
+            // Restore scrolling
+            document.body.style.overflow = "";
+            if ((window as any).lenis) {
+              (window as any).lenis.start();
+            }
+          }, 900); // Allow time for exit animations
+          return 100;
+        }
+        return next;
+      });
+    }, 25); // 25ms interval -> ~2.2s base duration to reach 90%
 
     return () => {
-      cancelAnimationFrame(frameId);
+      clearInterval(interval);
+      clearTimeout(fallbackTimeout);
+      window.removeEventListener("hero-loaded", handleHeroLoaded);
       document.body.style.overflow = "";
       if ((window as any).lenis) {
         (window as any).lenis.start();
