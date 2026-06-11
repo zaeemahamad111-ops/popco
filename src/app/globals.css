@@ -1,0 +1,126 @@
+@import "tailwindcss";
+
+:root {
+  --background: #F8F7F4;
+  --foreground: #111111;
+  --accent-gold: #C9A14A;
+  --text-dark: #111111;
+  --text-muted: #555555;
+}
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-gold: var(--accent-gold);
+  --color-dark: var(--text-dark);
+  --color-muted: var(--text-muted);
+  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-sans: var(--font-outfit), system-ui, sans-serif;
+}
+
+/* ─── Base Reset & Typography ─────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto !important;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Selection Color ──────────────────────────────────────── */
+::selection {
+  background: rgba(201, 161, 74, 0.18);
+  color: var(--text-dark);
+}
+
+/* ─── Custom Scrollbar ──────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #F8F7F4;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(201, 161, 74, 0.5);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C9A14A;
+}
+
+/* ─── Typography Utilities ──────────────────────────────────── */
+.font-editorial {
+  font-family: var(--font-serif);
+  font-style: normal;
+}
+
+/* ─── Glass Effect ──────────────────────────────────────────── */
+.glassmorphism {
+  background: rgba(248, 247, 244, 0.82);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-bottom: 1px solid rgba(201, 161, 74, 0.1);
+}
+
+/* ─── Gold Utilities ──────────────────────────────────────────── */
+.gold-glow {
+  box-shadow: 0 0 24px rgba(201, 161, 74, 0.18);
+}
+
+.gold-border {
+  border-color: var(--accent-gold);
+}
+
+/* ─── Hide Scrollbar (Carousel) ──────────────────────────────── */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ─── Image Rendering ─────────────────────────────────────────── */
+img {
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* ─── Smooth link/button transitions ─────────────────────────── */
+a, button {
+  transition-property: color, background-color, border-color, opacity, transform;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Page fade-in ─────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+main {
+  animation: fadeIn 0.5s ease-out both;
+}
+
+/* ─── Section reveal base ─────────────────────────────────────── */
+.section-divider {
+  border-top: 1px solid rgba(17, 17, 17, 0.06);
+}
+
+/* ─── Gold horizontal rule ────────────────────────────────────── */
+.gold-hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #C9A14A, transparent);
+  opacity: 0.4;
+  margin: 2rem 0;
+}
