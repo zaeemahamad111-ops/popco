@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Outfit } from "next/font/google";
+import localFont from "next/font/local";
 import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
@@ -15,6 +16,14 @@ const outfit = Outfit({
   variable: "--font-outfit",
   weight: ["300", "400", "500", "600"],
 });
+
+const mileast = localFont({
+  src: "./fonts/mileast.regular.otf",
+  variable: "--font-mileast",
+  weight: "400",
+  style: "normal",
+});
+
 
 export const metadata: Metadata = {
   title: "POPCO Premium Popcorn | Always Worth Sharing",
@@ -34,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${outfit.variable} scroll-smooth`}>
+    <html lang="en" className={`${playfair.variable} ${outfit.variable} ${mileast.variable} scroll-smooth`}>
       <body className="font-sans bg-background text-foreground antialiased min-h-screen">
         <SmoothScroll />
         {children}

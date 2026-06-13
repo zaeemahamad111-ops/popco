@@ -14,7 +14,7 @@
   --color-gold: var(--accent-gold);
   --color-dark: var(--text-dark);
   --color-muted: var(--text-muted);
-  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-serif: var(--font-mileast), var(--font-playfair), Georgia, serif;
   --font-sans: var(--font-outfit), system-ui, sans-serif;
 }
 

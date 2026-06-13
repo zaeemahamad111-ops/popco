@@ -291,9 +291,6 @@ export default function Hero() {
               exit={{ opacity: 0, x: 15 }}
               transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
               className={`absolute z-30 w-[calc(100%-80px)] max-w-[320px] md:max-w-[460px] flex flex-col items-start pl-6 md:pl-8 border-l-[1.5px] border-gold/45 ${stepData.positionClass}`}
-              style={{
-                textShadow: "0 2px 15px rgba(0, 0, 0, 0.75), 0 1px 4px rgba(0, 0, 0, 0.5)"
-              }}
             >
               {/* Subtitle tag */}
               <span className="block text-[8px] md:text-[10px] tracking-[0.35em] font-bold text-gold uppercase mb-2">
@@ -302,11 +299,11 @@ export default function Hero() {
 
               {/* Main heading */}
               <h1
-                className="font-sans font-bold leading-[1.08] tracking-tight text-white mb-3 text-[22px] sm:text-3xl md:text-4xl lg:text-[46px] uppercase"
+                className="font-editorial font-normal leading-[1.08] tracking-tight text-white mb-3 text-[24px] sm:text-3xl md:text-5xl lg:text-[52px]"
               >
                 {stepData.titleStart}
                 <br />
-                <span className="text-gold">{stepData.titleEnd}</span>
+                <span className="text-gold italic font-serif">{stepData.titleEnd}</span>
               </h1>
 
               {/* Description */}
