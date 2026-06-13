@@ -145,7 +145,7 @@ export default function Hero() {
             // matches the current viewport height exactly
             end: () => "+=" + window.innerHeight * 4,
             pin: true,
-            scrub: 0.8,
+            scrub: 1.8,
             anticipatePin: 1,
             // Re-calculate end position if the window is resized
             invalidateOnRefresh: true,
