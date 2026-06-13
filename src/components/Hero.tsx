@@ -198,9 +198,15 @@ export default function Hero() {
       renderFrame(firstImg);
       images[0] = firstImg;
 
-      let loadedCount = 1;
-      const checkAllLoaded = () => {
-        if (loadedCount === frameCount) {
+      let loadedRequired = 1;
+      let loadedTotal = 1;
+      const requiredFrames = 30; // Prioritize loading first 30 frames for buttery smooth initial load
+      let initialTriggered = false;
+
+      const checkInitialLoaded = () => {
+        if (initialTriggered) return;
+        if (loadedRequired >= requiredFrames) {
+          initialTriggered = true;
           setLoaded(true);
           (window as any).heroLoaded = true;
           window.dispatchEvent(new CustomEvent("hero-loaded"));
@@ -208,20 +214,26 @@ export default function Hero() {
         }
       };
 
-      // Load remaining frames (2–120) in the background
+      // Load remaining frames (2–120) with prioritization
       for (let i = 1; i < frameCount; i++) {
         const img = new Image();
         img.src = frameSrc(i + 1); // frames are 1-indexed
         img.onload = () => {
           if (!isMounted) return;
           images[i] = img;
-          loadedCount++;
-          checkAllLoaded();
+          loadedTotal++;
+          if (i < requiredFrames) {
+            loadedRequired++;
+            checkInitialLoaded();
+          }
         };
         img.onerror = () => {
           if (!isMounted) return;
-          loadedCount++;
-          checkAllLoaded();
+          loadedTotal++;
+          if (i < requiredFrames) {
+            loadedRequired++;
+            checkInitialLoaded();
+          }
         };
       }
     };
