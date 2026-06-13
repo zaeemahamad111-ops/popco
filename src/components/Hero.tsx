@@ -290,7 +290,7 @@ export default function Hero() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 15 }}
               transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-              className={`absolute z-30 w-[calc(100%-80px)] max-w-[320px] md:max-w-[460px] flex flex-col items-start pl-6 md:pl-8 border-l-[1.5px] border-dark/20 ${stepData.positionClass}`}
+              className={`absolute z-30 w-[calc(100%-80px)] max-w-[320px] md:max-w-[460px] flex flex-col items-start ${stepData.positionClass}`}
             >
               {/* Subtitle tag */}
               <span className="block text-[8px] md:text-[10px] tracking-[0.35em] font-bold text-dark/50 uppercase mb-2">
@@ -303,7 +303,7 @@ export default function Hero() {
               >
                 {stepData.titleStart}
                 <br />
-                <span className="text-black italic font-serif">{stepData.titleEnd}</span>
+                <span className="text-white italic font-serif">{stepData.titleEnd}</span>
               </h1>
 
               {/* Description */}
