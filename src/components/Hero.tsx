@@ -21,6 +21,7 @@ const steps = [
     cta: "OUR JOURNEY",
     ctaSub: "Watch how we bring the perfect crunch",
     target: "#story",
+    positionClass: "bottom-10 left-10 md:left-24 md:bottom-28",
   },
   {
     subtitle: "PREPARATION",
@@ -32,6 +33,7 @@ const steps = [
     cta: "THE PROCESS",
     ctaSub: "Prepared with love and strict standards",
     target: "#process",
+    positionClass: "bottom-10 left-10 md:left-24 md:bottom-28",
   },
   {
     subtitle: "THE POP",
@@ -43,6 +45,7 @@ const steps = [
     cta: "WITNESS THE POP",
     ctaSub: "Popping at the perfect temperature",
     target: "#process",
+    positionClass: "bottom-10 left-10 md:left-24 md:bottom-28",
   },
   {
     subtitle: "FLAVORING",
@@ -54,6 +57,7 @@ const steps = [
     cta: "SIGNATURE BLENDS",
     ctaSub: "Crafted for the ultimate flavor profile",
     target: "#products",
+    positionClass: "bottom-10 right-10 left-auto md:right-24 md:bottom-28 md:left-auto",
   },
   {
     subtitle: "PACKAGING",
@@ -65,6 +69,7 @@ const steps = [
     cta: "DISCOVER FLAVORS",
     ctaSub: "Explore our collection below",
     target: "#products",
+    positionClass: "bottom-10 left-10 md:left-24 md:bottom-28",
   },
 ];
 
@@ -274,81 +279,65 @@ export default function Hero() {
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }}
       />
 
-      {/* ─── Bottom-Left Cinematic Vignette (Only visible when activeStep > 0 to keep first frame completely pure) ─── */}
-      <AnimatePresence>
-        {activeStep > 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.85 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className="absolute bottom-0 left-0 w-full md:w-[65%] h-[60%] bg-gradient-to-tr from-black/60 via-black/25 to-transparent pointer-events-none z-10"
-          />
-        )}
-      </AnimatePresence>
+      <AnimatePresence mode="wait">
+        {steps.map((stepData, index) => {
+          if (index !== activeStep) return null;
+          if (index === 0) return null; // Hide dialogue card on the first step/frame
+          return (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 15 }}
+              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              className={`absolute z-30 w-[calc(100%-80px)] max-w-[320px] md:max-w-[460px] flex flex-col items-start pl-6 md:pl-8 border-l-[1.5px] border-gold/45 ${stepData.positionClass}`}
+            >
+              {/* Subtitle tag */}
+              <span className="block text-[8px] md:text-[9.5px] tracking-[0.35em] font-semibold text-gold uppercase mb-2">
+                {stepData.subtitle}
+              </span>
 
-
-      <div className="absolute bottom-10 left-10 z-30 w-[calc(100%-80px)] max-w-[320px] md:max-w-[460px] md:left-24 md:bottom-28">
-        <AnimatePresence mode="wait">
-          {steps.map((stepData, index) => {
-            if (index !== activeStep) return null;
-            if (index === 0) return null; // Hide dialogue card on the first step/frame
-            return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 15 }}
-                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                className="flex flex-col items-start pl-6 md:pl-8 border-l-[1.5px] border-gold/45"
+              {/* Main heading */}
+              <h1
+                className="font-editorial font-light leading-[1.08] tracking-tight text-white mb-3 text-[22px] sm:text-3xl md:text-4xl lg:text-[46px]"
               >
-                {/* Subtitle tag */}
-                <span className="block text-[8px] md:text-[9.5px] tracking-[0.35em] font-semibold text-gold uppercase mb-2">
-                  {stepData.subtitle}
-                </span>
+                {stepData.titleStart}
+                <br />
+                <span className="font-serif italic text-gold">{stepData.titleEnd}</span>
+              </h1>
 
-                {/* Main heading */}
-                <h1
-                  className="font-editorial font-light leading-[1.08] tracking-tight text-white mb-3 text-[22px] sm:text-3xl md:text-4xl lg:text-[46px]"
-                >
-                  {stepData.titleStart}
-                  <br />
-                  <span className="font-serif italic text-gold">{stepData.titleEnd}</span>
-                </h1>
+              {/* Description */}
+              <p className="text-[10.5px] md:text-[12px] text-white/70 font-light leading-relaxed max-w-[340px] mb-5">
+                {stepData.description}
+              </p>
 
-                {/* Description */}
-                <p className="text-[10.5px] md:text-[12px] text-white/70 font-light leading-relaxed max-w-[340px] mb-5">
-                  {stepData.description}
-                </p>
-
-                {/* CTA */}
-                <button
-                  onClick={() => {
-                    if ((window as any).lenis) {
-                      (window as any).lenis.scrollTo(stepData.target);
-                    } else {
-                      document
-                        .getElementById(stepData.target.replace("#", ""))
-                        ?.scrollIntoView({ behavior: "smooth" });
-                    }
-                  }}
-                  className="flex items-center gap-3 group/cta text-[8.5px] md:text-[9.5px] tracking-[0.25em] font-bold text-white hover:text-gold transition-colors duration-300"
-                >
-                  <div className="w-6 h-6 md:w-7 md:h-7 rounded-full border border-white/25 flex items-center justify-center group-hover/cta:border-gold group-hover/cta:bg-gold/10 transition-all duration-300">
-                    <span className="text-[6.5px] md:text-[8px] ml-[1.5px] text-white group-hover/cta:text-gold">▶</span>
-                  </div>
-                  <div className="flex flex-col items-start leading-tight text-left">
-                    <span>{stepData.cta}</span>
-                    <span className="text-[7.5px] md:text-[8.5px] text-white/45 tracking-[0.1em] font-normal group-hover/cta:text-gold/80 transition-colors">
-                      {stepData.ctaSub}
-                    </span>
-                  </div>
-                </button>
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
-      </div>
+              {/* CTA */}
+              <button
+                onClick={() => {
+                  if ((window as any).lenis) {
+                    (window as any).lenis.scrollTo(stepData.target);
+                  } else {
+                    document
+                      .getElementById(stepData.target.replace("#", ""))
+                      ?.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
+                className="flex items-center gap-3 group/cta text-[8.5px] md:text-[9.5px] tracking-[0.25em] font-bold text-white hover:text-gold transition-colors duration-300"
+              >
+                <div className="w-6 h-6 md:w-7 md:h-7 rounded-full border border-white/25 flex items-center justify-center group-hover/cta:border-gold group-hover/cta:bg-gold/10 transition-all duration-300">
+                  <span className="text-[6.5px] md:text-[8px] ml-[1.5px] text-white group-hover/cta:text-gold">▶</span>
+                </div>
+                <div className="flex flex-col items-start leading-tight text-left">
+                  <span>{stepData.cta}</span>
+                  <span className="text-[7.5px] md:text-[8.5px] text-white/45 tracking-[0.1em] font-normal group-hover/cta:text-gold/80 transition-colors">
+                    {stepData.ctaSub}
+                  </span>
+                </div>
+              </button>
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
 
       {/* ─── Bottom Center: Circular "SCROLL" indicator ─── */}
       <motion.button
