@@ -274,6 +274,19 @@ export default function Hero() {
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }}
       />
 
+      {/* ─── Bottom-Left Cinematic Vignette (Only visible when activeStep > 0 to keep first frame completely pure) ─── */}
+      <AnimatePresence>
+        {activeStep > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.85 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="absolute bottom-0 left-0 w-full md:w-[65%] h-[60%] bg-gradient-to-tr from-black/60 via-black/25 to-transparent pointer-events-none z-10"
+          />
+        )}
+      </AnimatePresence>
+
       {/* ─── Left Sidebar: Vertical step indicator ─── */}
       <div className="absolute left-6 md:left-10 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center gap-0">
         <div className="relative flex flex-col items-center">
@@ -323,7 +336,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="absolute bottom-6 left-6 z-30 w-[calc(100%-48px)] max-w-[280px] md:max-w-[400px] md:left-16 md:bottom-24">
+      <div className="absolute bottom-10 left-10 z-30 w-[calc(100%-80px)] max-w-[320px] md:max-w-[460px] md:left-24 md:bottom-28">
         <AnimatePresence mode="wait">
           {steps.map((stepData, index) => {
             if (index !== activeStep) return null;
@@ -331,31 +344,28 @@ export default function Hero() {
             return (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 15 }}
                 transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                className="bg-white/60 backdrop-blur-md rounded-2xl p-5 md:p-10 shadow-[0_8px_32px_rgba(0,0,0,0.04)] border border-white/50"
+                className="flex flex-col items-start pl-6 md:pl-8 border-l-[1.5px] border-gold/45"
               >
                 {/* Subtitle tag */}
-                <span className="block text-[8px] md:text-[9px] tracking-[0.3em] font-semibold text-gold uppercase mb-1.5 md:mb-2">
+                <span className="block text-[8px] md:text-[9.5px] tracking-[0.35em] font-semibold text-gold uppercase mb-2">
                   {stepData.subtitle}
                 </span>
 
                 {/* Main heading */}
                 <h1
-                  className="font-editorial font-light leading-[1.05] tracking-tight text-dark mb-2.5 md:mb-3 text-[20px] sm:text-2xl md:text-4xl lg:text-5xl"
+                  className="font-editorial font-light leading-[1.08] tracking-tight text-white mb-3 text-[22px] sm:text-3xl md:text-4xl lg:text-[46px]"
                 >
                   {stepData.titleStart}
                   <br />
-                  <em className="not-italic text-gold">{stepData.titleEnd}</em>
+                  <span className="font-serif italic text-gold">{stepData.titleEnd}</span>
                 </h1>
 
-                {/* Gold divider */}
-                <div className="w-8 h-px bg-gold/60 mb-2.5 md:mb-3" />
-
                 {/* Description */}
-                <p className="text-[10px] md:text-[11px] text-dark/60 font-light leading-relaxed max-w-[300px] mb-4 md:mb-5">
+                <p className="text-[10.5px] md:text-[12px] text-white/70 font-light leading-relaxed max-w-[340px] mb-5">
                   {stepData.description}
                 </p>
 
@@ -370,14 +380,14 @@ export default function Hero() {
                         ?.scrollIntoView({ behavior: "smooth" });
                     }
                   }}
-                  className="flex items-center gap-2.5 md:gap-3 group/cta text-[8px] md:text-[9px] tracking-[0.22em] font-bold text-dark hover:text-gold transition-colors duration-300"
+                  className="flex items-center gap-3 group/cta text-[8.5px] md:text-[9.5px] tracking-[0.25em] font-bold text-white hover:text-gold transition-colors duration-300"
                 >
-                  <div className="w-5 h-5 md:w-6 md:h-6 rounded-full border border-dark/20 flex items-center justify-center group-hover/cta:border-gold transition-colors duration-300">
-                    <span className="text-[6px] md:text-[7px] ml-[1px]">▶</span>
+                  <div className="w-6 h-6 md:w-7 md:h-7 rounded-full border border-white/25 flex items-center justify-center group-hover/cta:border-gold group-hover/cta:bg-gold/10 transition-all duration-300">
+                    <span className="text-[6.5px] md:text-[8px] ml-[1.5px] text-white group-hover/cta:text-gold">▶</span>
                   </div>
-                  <div className="flex flex-col items-start leading-tight">
+                  <div className="flex flex-col items-start leading-tight text-left">
                     <span>{stepData.cta}</span>
-                    <span className="text-[7px] md:text-[8px] text-dark/40 tracking-[0.1em] font-normal group-hover/cta:text-gold/60">
+                    <span className="text-[7.5px] md:text-[8.5px] text-white/45 tracking-[0.1em] font-normal group-hover/cta:text-gold/80 transition-colors">
                       {stepData.ctaSub}
                     </span>
                   </div>
