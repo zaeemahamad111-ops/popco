@@ -200,7 +200,7 @@ export default function Hero() {
 
       let loadedRequired = 1;
       let loadedTotal = 1;
-      const requiredFrames = 30; // Prioritize loading first 30 frames for buttery smooth initial load
+      const requiredFrames = 1; // Prioritize loading only the very first frame to render instantly
       let initialTriggered = false;
 
       const checkInitialLoaded = () => {
@@ -214,7 +214,10 @@ export default function Hero() {
         }
       };
 
-      // Load remaining frames (2–120) with prioritization
+      // Immediately trigger ready event since the first frame is loaded
+      checkInitialLoaded();
+
+      // Load remaining frames (2–120) in the background asynchronously
       for (let i = 1; i < frameCount; i++) {
         const img = new Image();
         img.src = frameSrc(i + 1); // frames are 1-indexed
@@ -222,18 +225,10 @@ export default function Hero() {
           if (!isMounted) return;
           images[i] = img;
           loadedTotal++;
-          if (i < requiredFrames) {
-            loadedRequired++;
-            checkInitialLoaded();
-          }
         };
         img.onerror = () => {
           if (!isMounted) return;
           loadedTotal++;
-          if (i < requiredFrames) {
-            loadedRequired++;
-            checkInitialLoaded();
-          }
         };
       }
     };
