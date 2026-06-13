@@ -12,10 +12,10 @@ export default function SmoothScroll() {
 
     // Initialize Lenis smooth scroll
     const lenis = new Lenis({
-      duration: 0.95, // Snappier scroll animation to prevent sluggish input lag
+      duration: 0.8, // Snappier duration for immediate response
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      wheelMultiplier: 1.0, // Responsive wheel scroll
-      touchMultiplier: 1.8, // Smooth touch response
+      wheelMultiplier: 1.25, // More responsive wheel scroll
+      touchMultiplier: 2.2, // Higher touch sensitivity for mobile
       syncTouch: true, // Keep touch scroll smoothly animated and in-sync on mobile
       infinite: false,
     });

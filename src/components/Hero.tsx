@@ -132,7 +132,6 @@ export default function Hero() {
     // Both run after render — we defer by one RAF to guarantee ordering.
     let ctx: ReturnType<typeof gsap.context>;
     let timeoutId: ReturnType<typeof setTimeout>;
-    let fallbackTimeoutId: ReturnType<typeof setTimeout>;
 
     const initScrollTrigger = () => {
       ctx = gsap.context(() => {
@@ -146,7 +145,7 @@ export default function Hero() {
             // matches the current viewport height exactly
             end: () => "+=" + window.innerHeight * 4,
             pin: true,
-            scrub: true,
+            scrub: 0.8,
             anticipatePin: 1,
             // Re-calculate end position if the window is resized
             invalidateOnRefresh: true,
@@ -199,16 +198,9 @@ export default function Hero() {
       renderFrame(firstImg);
       images[0] = firstImg;
 
-      let loadedRequired = 1;
-      let loadedTotal = 1;
-      const requiredFrames = 15; // Prioritize loading first 15 frames for quick entrance
-      let initialTriggered = false;
-
-      const checkInitialLoaded = () => {
-        if (initialTriggered) return;
-        if (loadedRequired >= requiredFrames) {
-          initialTriggered = true;
-          clearTimeout(fallbackTimeoutId);
+      let loadedCount = 1;
+      const checkAllLoaded = () => {
+        if (loadedCount === frameCount) {
           setLoaded(true);
           (window as any).heroLoaded = true;
           window.dispatchEvent(new CustomEvent("hero-loaded"));
@@ -216,37 +208,20 @@ export default function Hero() {
         }
       };
 
-      // Safety timeout: if frames load slowly, trigger page load after 2.2 seconds
-      fallbackTimeoutId = setTimeout(() => {
-        if (!initialTriggered) {
-          initialTriggered = true;
-          setLoaded(true);
-          (window as any).heroLoaded = true;
-          window.dispatchEvent(new CustomEvent("hero-loaded"));
-          ScrollTrigger.refresh();
-        }
-      }, 2200);
-
-      // Load remaining frames (2–120) with prioritization
+      // Load remaining frames (2–120) in the background
       for (let i = 1; i < frameCount; i++) {
         const img = new Image();
         img.src = frameSrc(i + 1); // frames are 1-indexed
         img.onload = () => {
           if (!isMounted) return;
           images[i] = img;
-          loadedTotal++;
-          if (i < requiredFrames) {
-            loadedRequired++;
-            checkInitialLoaded();
-          }
+          loadedCount++;
+          checkAllLoaded();
         };
         img.onerror = () => {
           if (!isMounted) return;
-          loadedTotal++;
-          if (i < requiredFrames) {
-            loadedRequired++;
-            checkInitialLoaded();
-          }
+          loadedCount++;
+          checkAllLoaded();
         };
       }
     };
@@ -267,7 +242,6 @@ export default function Hero() {
     return () => {
       isMounted = false;
       clearTimeout(timeoutId);
-      clearTimeout(fallbackTimeoutId);
       ctx?.revert();
       window.removeEventListener("resize", handleResize);
     };

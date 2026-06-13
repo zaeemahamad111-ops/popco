@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+import { LotusSVG } from "./LotusLogo";
 
 export default function LoadingScreen() {
   const [progress, setProgress] = useState(0);
@@ -98,21 +98,37 @@ export default function LoadingScreen() {
 
           {/* Logo container */}
           <div className="relative flex flex-col items-center text-center">
-            {/* Main Brand Logo - Floating fade-in animation */}
+            {/* Lotus SVG - Soft glow and floating scale animation */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
               transition={{ duration: 1.2, ease: "easeOut" }}
-              className="mb-10 px-4"
+              className="mb-8"
             >
-              <Image 
-                src="/images/logo.png" 
-                alt="POPCO Logo" 
-                width={280} 
-                height={92} 
-                className="w-auto h-16 sm:h-20 md:h-24 object-contain" 
-                priority
-              />
+              <div className="relative p-4 rounded-full bg-white/40 shadow-[0_8px_32px_rgba(201,161,74,0.04)] border border-gold/10">
+                <LotusSVG size={72} color="#C9A14A" />
+                {/* Subtle pulse ring around the lotus */}
+                <motion.div
+                  className="absolute inset-0 rounded-full border border-gold/20"
+                  animate={{ scale: [1, 1.25, 1], opacity: [0.4, 0, 0.4] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                />
+              </div>
+            </motion.div>
+
+            {/* Brand Names */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 1.0, ease: "easeOut" }}
+              className="flex flex-col gap-2.5 items-center mb-10"
+            >
+              <span className="font-sans font-bold tracking-[0.35em] text-2xl text-dark leading-none">
+                POPCO®
+              </span>
+              <span className="text-[9px] tracking-[0.3em] font-semibold text-gold leading-none uppercase">
+                PREMIUM POPCORN
+              </span>
             </motion.div>
 
             {/* Custom Progress Layout */}
