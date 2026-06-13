@@ -291,23 +291,26 @@ export default function Hero() {
               exit={{ opacity: 0, x: 15 }}
               transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
               className={`absolute z-30 w-[calc(100%-80px)] max-w-[320px] md:max-w-[460px] flex flex-col items-start pl-6 md:pl-8 border-l-[1.5px] border-gold/45 ${stepData.positionClass}`}
+              style={{
+                textShadow: "0 2px 15px rgba(0, 0, 0, 0.75), 0 1px 4px rgba(0, 0, 0, 0.5)"
+              }}
             >
               {/* Subtitle tag */}
-              <span className="block text-[8px] md:text-[9.5px] tracking-[0.35em] font-semibold text-gold uppercase mb-2">
+              <span className="block text-[8px] md:text-[10px] tracking-[0.35em] font-bold text-gold uppercase mb-2">
                 {stepData.subtitle}
               </span>
 
               {/* Main heading */}
               <h1
-                className="font-editorial font-light leading-[1.08] tracking-tight text-white mb-3 text-[22px] sm:text-3xl md:text-4xl lg:text-[46px]"
+                className="font-sans font-bold leading-[1.08] tracking-tight text-white mb-3 text-[22px] sm:text-3xl md:text-4xl lg:text-[46px] uppercase"
               >
                 {stepData.titleStart}
                 <br />
-                <span className="font-serif italic text-gold">{stepData.titleEnd}</span>
+                <span className="text-gold">{stepData.titleEnd}</span>
               </h1>
 
               {/* Description */}
-              <p className="text-[10.5px] md:text-[12px] text-white/70 font-light leading-relaxed max-w-[340px] mb-5">
+              <p className="text-[10.5px] md:text-[13px] text-white/95 font-medium leading-relaxed max-w-[340px] mb-5">
                 {stepData.description}
               </p>
 
@@ -329,7 +332,7 @@ export default function Hero() {
                 </div>
                 <div className="flex flex-col items-start leading-tight text-left">
                   <span>{stepData.cta}</span>
-                  <span className="text-[7.5px] md:text-[8.5px] text-white/45 tracking-[0.1em] font-normal group-hover/cta:text-gold/80 transition-colors">
+                  <span className="text-[7.5px] md:text-[8.5px] text-white/50 tracking-[0.1em] font-normal group-hover/cta:text-gold/80 transition-colors">
                     {stepData.ctaSub}
                   </span>
                 </div>
