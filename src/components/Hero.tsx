@@ -132,6 +132,7 @@ export default function Hero() {
     // Both run after render — we defer by one RAF to guarantee ordering.
     let ctx: ReturnType<typeof gsap.context>;
     let timeoutId: ReturnType<typeof setTimeout>;
+    let fallbackTimeoutId: ReturnType<typeof setTimeout>;
 
     const initScrollTrigger = () => {
       ctx = gsap.context(() => {
@@ -143,9 +144,9 @@ export default function Hero() {
             start: "top top",
             // Function form: computed fresh on each refresh so it always
             // matches the current viewport height exactly
-            end: () => "+=" + window.innerHeight * 6,
+            end: () => "+=" + window.innerHeight * 4,
             pin: true,
-            scrub: 2.8,
+            scrub: 1.8,
             anticipatePin: 1,
             // Re-calculate end position if the window is resized
             invalidateOnRefresh: true,
@@ -198,9 +199,16 @@ export default function Hero() {
       renderFrame(firstImg);
       images[0] = firstImg;
 
-      let loadedCount = 1;
-      const checkAllLoaded = () => {
-        if (loadedCount === frameCount) {
+      let loadedRequired = 1;
+      let loadedTotal = 1;
+      const requiredFrames = 15; // Prioritize loading first 15 frames for quick entrance
+      let initialTriggered = false;
+
+      const checkInitialLoaded = () => {
+        if (initialTriggered) return;
+        if (loadedRequired >= requiredFrames) {
+          initialTriggered = true;
+          clearTimeout(fallbackTimeoutId);
           setLoaded(true);
           (window as any).heroLoaded = true;
           window.dispatchEvent(new CustomEvent("hero-loaded"));
@@ -208,20 +216,37 @@ export default function Hero() {
         }
       };
 
-      // Load remaining frames (2–120) in the background
+      // Safety timeout: if frames load slowly, trigger page load after 2.2 seconds
+      fallbackTimeoutId = setTimeout(() => {
+        if (!initialTriggered) {
+          initialTriggered = true;
+          setLoaded(true);
+          (window as any).heroLoaded = true;
+          window.dispatchEvent(new CustomEvent("hero-loaded"));
+          ScrollTrigger.refresh();
+        }
+      }, 2200);
+
+      // Load remaining frames (2–120) with prioritization
       for (let i = 1; i < frameCount; i++) {
         const img = new Image();
         img.src = frameSrc(i + 1); // frames are 1-indexed
         img.onload = () => {
           if (!isMounted) return;
           images[i] = img;
-          loadedCount++;
-          checkAllLoaded();
+          loadedTotal++;
+          if (i < requiredFrames) {
+            loadedRequired++;
+            checkInitialLoaded();
+          }
         };
         img.onerror = () => {
           if (!isMounted) return;
-          loadedCount++;
-          checkAllLoaded();
+          loadedTotal++;
+          if (i < requiredFrames) {
+            loadedRequired++;
+            checkInitialLoaded();
+          }
         };
       }
     };
@@ -242,6 +267,7 @@ export default function Hero() {
     return () => {
       isMounted = false;
       clearTimeout(timeoutId);
+      clearTimeout(fallbackTimeoutId);
       ctx?.revert();
       window.removeEventListener("resize", handleResize);
     };
@@ -249,7 +275,7 @@ export default function Hero() {
 
   const scrollToStep = (stepIndex: number) => {
     const scrollY =
-      (containerRef.current?.offsetTop || 0) + (window.innerHeight * 6) * (stepIndex / 4);
+      (containerRef.current?.offsetTop || 0) + window.innerHeight * stepIndex;
     if ((window as any).lenis) {
       (window as any).lenis.scrollTo(scrollY);
     } else {
@@ -258,7 +284,7 @@ export default function Hero() {
   };
 
   const scrollDown = () => {
-    const scrollY = (containerRef.current?.offsetTop || 0) + (window.innerHeight * 6) * (1 / 4);
+    const scrollY = (containerRef.current?.offsetTop || 0) + window.innerHeight;
     if ((window as any).lenis) {
       (window as any).lenis.scrollTo(scrollY);
     } else {
