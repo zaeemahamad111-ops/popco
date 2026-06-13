@@ -287,54 +287,6 @@ export default function Hero() {
         )}
       </AnimatePresence>
 
-      {/* ─── Left Sidebar: Vertical step indicator ─── */}
-      <div className="absolute left-6 md:left-10 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center gap-0">
-        <div className="relative flex flex-col items-center">
-          {/* Background track line */}
-          <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-dark/15" />
-          {/* Gold progress fill */}
-          <div
-            className="absolute left-1/2 -translate-x-1/2 top-0 w-px bg-gold transition-all duration-700 ease-out"
-            style={{
-              height: activeStep === 0 ? "0px" : `${(activeStep / (steps.length - 1)) * 100}%`,
-            }}
-          />
-
-          {steps.map((s, i) => {
-            const isActive = i === activeStep;
-            const isPast = i < activeStep;
-            return (
-              <button
-                key={s.indicator}
-                onClick={() => scrollToStep(i)}
-                className="relative flex flex-col items-center group focus:outline-none py-7"
-                aria-label={`Go to step ${s.indicator}`}
-              >
-                {/* Dot */}
-                <div
-                  className={`relative z-10 rounded-full border transition-all duration-500 ${
-                    isActive
-                      ? "w-[11px] h-[11px] bg-dark border-dark shadow-[0_0_8px_2px_rgba(17,17,17,0.2)]"
-                      : isPast
-                      ? "w-[7px] h-[7px] bg-gold border-gold/80"
-                      : "w-[7px] h-[7px] bg-transparent border-dark/25 group-hover:border-dark/60"
-                  }`}
-                />
-                {/* Step number label */}
-                <span
-                  className={`absolute left-5 text-[9px] tracking-[0.2em] font-semibold whitespace-nowrap transition-all duration-300 ${
-                    isActive
-                      ? "text-dark opacity-100 translate-x-0"
-                      : "text-dark/40 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0"
-                  }`}
-                >
-                  {s.indicator}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
 
       <div className="absolute bottom-10 left-10 z-30 w-[calc(100%-80px)] max-w-[320px] md:max-w-[460px] md:left-24 md:bottom-28">
         <AnimatePresence mode="wait">
