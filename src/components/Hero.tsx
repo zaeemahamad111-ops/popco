@@ -143,7 +143,7 @@ export default function Hero() {
             start: "top top",
             // Function form: computed fresh on each refresh so it always
             // matches the current viewport height exactly
-            end: () => "+=" + window.innerHeight * 4,
+            end: () => "+=" + window.innerHeight * 6,
             pin: true,
             scrub: 2.8,
             anticipatePin: 1,
@@ -249,7 +249,7 @@ export default function Hero() {
 
   const scrollToStep = (stepIndex: number) => {
     const scrollY =
-      (containerRef.current?.offsetTop || 0) + window.innerHeight * stepIndex;
+      (containerRef.current?.offsetTop || 0) + (window.innerHeight * 6) * (stepIndex / 4);
     if ((window as any).lenis) {
       (window as any).lenis.scrollTo(scrollY);
     } else {
@@ -258,7 +258,7 @@ export default function Hero() {
   };
 
   const scrollDown = () => {
-    const scrollY = (containerRef.current?.offsetTop || 0) + window.innerHeight;
+    const scrollY = (containerRef.current?.offsetTop || 0) + (window.innerHeight * 6) * (1 / 4);
     if ((window as any).lenis) {
       (window as any).lenis.scrollTo(scrollY);
     } else {
