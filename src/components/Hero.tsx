@@ -290,24 +290,24 @@ export default function Hero() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 15 }}
               transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-              className={`absolute z-30 w-[calc(100%-80px)] max-w-[320px] md:max-w-[460px] flex flex-col items-start pl-6 md:pl-8 border-l-[1.5px] border-gold/45 ${stepData.positionClass}`}
+              className={`absolute z-30 w-[calc(100%-80px)] max-w-[320px] md:max-w-[460px] flex flex-col items-start pl-6 md:pl-8 border-l-[1.5px] border-dark/20 ${stepData.positionClass}`}
             >
               {/* Subtitle tag */}
-              <span className="block text-[8px] md:text-[10px] tracking-[0.35em] font-bold text-gold uppercase mb-2">
+              <span className="block text-[8px] md:text-[10px] tracking-[0.35em] font-bold text-dark/50 uppercase mb-2">
                 {stepData.subtitle}
               </span>
 
               {/* Main heading */}
               <h1
-                className="font-editorial font-normal leading-[1.08] tracking-tight text-white mb-3 text-[24px] sm:text-3xl md:text-5xl lg:text-[52px]"
+                className="font-editorial font-normal leading-[1.08] tracking-tight text-dark mb-3 text-[24px] sm:text-3xl md:text-5xl lg:text-[52px]"
               >
                 {stepData.titleStart}
                 <br />
-                <span className="text-gold italic font-serif">{stepData.titleEnd}</span>
+                <span className="text-black italic font-serif">{stepData.titleEnd}</span>
               </h1>
 
               {/* Description */}
-              <p className="text-[10.5px] md:text-[13px] text-white/95 font-medium leading-relaxed max-w-[340px] mb-5">
+              <p className="text-[10.5px] md:text-[13px] text-muted font-medium leading-relaxed max-w-[340px] mb-5">
                 {stepData.description}
               </p>
 
@@ -322,14 +322,14 @@ export default function Hero() {
                       ?.scrollIntoView({ behavior: "smooth" });
                   }
                 }}
-                className="flex items-center gap-3 group/cta text-[8.5px] md:text-[9.5px] tracking-[0.25em] font-bold text-white hover:text-gold transition-colors duration-300"
+                className="flex items-center gap-3 group/cta text-[8.5px] md:text-[9.5px] tracking-[0.25em] font-bold text-dark hover:text-black transition-colors duration-300"
               >
-                <div className="w-6 h-6 md:w-7 md:h-7 rounded-full border border-white/25 flex items-center justify-center group-hover/cta:border-gold group-hover/cta:bg-gold/10 transition-all duration-300">
-                  <span className="text-[6.5px] md:text-[8px] ml-[1.5px] text-white group-hover/cta:text-gold">▶</span>
+                <div className="w-6 h-6 md:w-7 md:h-7 rounded-full border border-dark/20 flex items-center justify-center group-hover/cta:border-dark group-hover/cta:bg-dark/5 transition-all duration-300">
+                  <span className="text-[6.5px] md:text-[8px] ml-[1.5px] text-dark group-hover/cta:text-black">▶</span>
                 </div>
                 <div className="flex flex-col items-start leading-tight text-left">
                   <span>{stepData.cta}</span>
-                  <span className="text-[7.5px] md:text-[8.5px] text-white/50 tracking-[0.1em] font-normal group-hover/cta:text-gold/80 transition-colors">
+                  <span className="text-[7.5px] md:text-[8.5px] text-dark/50 tracking-[0.1em] font-normal group-hover/cta:text-black/70 transition-colors">
                     {stepData.ctaSub}
                   </span>
                 </div>
@@ -347,20 +347,20 @@ export default function Hero() {
         transition={{ duration: 0.5 }}
         aria-label="Scroll down"
       >
-        {/* Gold pulsing circle */}
-        <div className="relative w-12 h-12 rounded-full border border-dark/15 flex items-center justify-center bg-white/60 backdrop-blur-sm group-hover:border-gold/60 transition-colors duration-300">
+        {/* Pulsing circle (monochrome) */}
+        <div className="relative w-12 h-12 rounded-full border border-dark/15 flex items-center justify-center bg-white/60 backdrop-blur-sm group-hover:border-dark/30 transition-colors duration-300">
           {/* Outer pulse ring */}
           <motion.div
-            className="absolute inset-0 rounded-full border border-gold/40"
+            className="absolute inset-0 rounded-full border border-dark/20"
             animate={{ scale: [1, 1.4, 1], opacity: [0.5, 0, 0.5] }}
             transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
           />
-          {/* Inner gold dot */}
-          <div className="w-3 h-3 rounded-full bg-gold shadow-[0_0_8px_2px_rgba(201,161,74,0.4)]" />
+          {/* Inner dark dot */}
+          <div className="w-3 h-3 rounded-full bg-dark shadow-[0_0_8px_1px_rgba(0,0,0,0.15)]" />
         </div>
 
         {/* SCROLL label */}
-        <span className="text-[8px] tracking-[0.3em] font-semibold text-dark/60 uppercase group-hover:text-gold transition-colors duration-300">
+        <span className="text-[8px] tracking-[0.3em] font-semibold text-dark/60 uppercase group-hover:text-dark transition-colors duration-300">
           SCROLL
         </span>
 
@@ -383,7 +383,7 @@ export default function Hero() {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <div className="flex flex-col items-center gap-4">
-              <div className="w-8 h-8 rounded-full border-2 border-gold/30 border-t-gold animate-spin" />
+              <div className="w-8 h-8 rounded-full border-2 border-dark/20 border-t-dark animate-spin" />
               <span className="text-[9px] tracking-[0.3em] text-dark/40 uppercase">
                 Loading
               </span>
