@@ -144,7 +144,7 @@ export default function Hero() {
             start: "top top",
             // Function form: computed fresh on each refresh so it always
             // matches the current viewport height exactly
-            end: () => "+=" + window.innerHeight * 4,
+            end: () => "+=" + window.innerHeight * 3,
             pin: true,
             scrub: 1.8,
             anticipatePin: 1,
